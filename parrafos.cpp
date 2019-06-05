@@ -26,7 +26,7 @@ int main () {
     char* final = (char*)".\0";
 	int contadorParrafos = 0;
 
-    ficheroEntrada.open("A1m.txt", ios::in);
+    ficheroEntrada.open("B1.txt", ios::in);
     if (ficheroEntrada.is_open()) {
         while (!ficheroEntrada.eof()) {
         	cout << "Parrafo: " << read_paragraph(ficheroEntrada) << endl;
