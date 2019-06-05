@@ -52,6 +52,7 @@ int main(int argc, char *argv[])
 {
     fstream ficheroEntrada;
     string frase;
+<<<<<<< HEAD:p1.cpp
     char *final = (char *)".\0";
     int contadorParrafos = 0;
     char cm[1000];
@@ -71,6 +72,17 @@ int main(int argc, char *argv[])
             {
                 cout << "Palabra: "<< *it<< endl;
             }*/
+=======
+    char* final = (char*)".\0";
+	int contadorParrafos = 0;
+
+    ficheroEntrada.open("B1.txt", ios::in);
+    if (ficheroEntrada.is_open()) {
+        while (!ficheroEntrada.eof()) {
+        	cout << "Parrafo: " << read_paragraph(ficheroEntrada) << endl;
+            //getline (ficheroEntrada,frase);
+			//cout << ">" << frase << endl;
+>>>>>>> e37de1922c456a88889ff73be57d9155ad62b62f:parrafos.cpp
         }
         ficheroEntrada.close();
     }
