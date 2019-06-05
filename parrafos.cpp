@@ -28,7 +28,7 @@ string genPhrase(string word,vector<string> palabras){
     {
         frase += palabras.at(j);
         frase += " ";
-        cout<<"Frase:"<<frase<<endl;
+        // cout<<"Frase:"<<frase<<endl;
     }
     return frase;
 }
@@ -45,7 +45,37 @@ vector<string> getPhrases(string parrafo)
         aux.erase (aux.begin());
         i++;
     }
+    // cout << "frases :" << frases.size() << endl;
     return frases;
+}
+
+vector<string> compareToken(vector<vector<string> > tokens1,vector<vector<string> > tokens2){
+    vector<string> cadenas;
+    cout << "Size: " << tokens1.size() << endl; 
+
+    for(int i = 0; i < tokens1.size(); i++){
+        for(int j = 0; j < tokens1.at(i).size(); j++ ){
+          for(int k = 0; k < tokens2.size(); k++){
+                for(int l = 0; l < tokens2.at(k).size(); l++ ){
+                    if(tokens1.at(i).at(j) == tokens2.at(k).at(l)){
+                        cadenas.push_back(tokens1.at(i).at(j));
+                    }
+                }
+            }  
+        }
+    }
+    return cadenas;
+}
+
+string cadenaFinal(vector<string> cadenas){
+    int aux = 0, tmp = 0;
+    for(int i = 0; i < cadenas.size(); i++){
+        if(aux <= cadenas.at(i).size()){
+            aux = cadenas.at(i).size();
+            tmp = i;
+        }
+    }
+    return cadenas.at(tmp);
 }
 
 int main(int argc, char *argv[])
@@ -54,28 +84,28 @@ int main(int argc, char *argv[])
     string frase;
     char *final = (char *)".\0";
     int contadorParrafos = 0;
-    char cm[1000];
-    vector<string> tokparag;
-    //strcat(cm,"sed -i \'y/áÁàÀãÃâÂéÉêÊíÍóÓõÕôÔúÚñÑçÇ/aAaAaAaAeEeEiIoOoOoOuUnNcC\/\' ");
-    //strcat(cm,argv[1]);
-    //system(cm);
-    //cout << cm << endl;
+    vector<vector<string>> tokparag, tokparag2;
+    vector<string> cadenas;
     ficheroEntrada.open(argv[1], ios::in);
-    if (ficheroEntrada.is_open())
-    {
-        while (!ficheroEntrada.eof())
-        {
-            cout << "Parrafo tokenizado" << endl;
-            tokparag = getPhrases(read_paragraph(ficheroEntrada));
-            /*for (vector<string>::iterator it = tokparag.begin(); it != tokparag.end(); ++it)
-            {
-                cout << "Palabra: "<< *it<< endl;
-            }*/
+    if (ficheroEntrada.is_open()){
+        while (!ficheroEntrada.eof()){
+            tokparag.push_back(getPhrases(read_paragraph(ficheroEntrada)));
         }
         ficheroEntrada.close();
     }
-    else
-        cout << "Fichero inexistente o faltan permisos para abrirlo" << endl;
+    
+    ficheroEntrada.open(argv[2], ios::in);
+    if (ficheroEntrada.is_open()){
+        while (!ficheroEntrada.eof()){
+            // cout << "Parrafo tokenizado" << endl;
+            tokparag2.push_back(getPhrases(read_paragraph(ficheroEntrada)));
+        }
+        ficheroEntrada.close();
+    }
 
+    // cout << "Tokpa "<< tokparag.at(0) << endl;
+    // cout << "Comparacion " << endl;
+    cadenas = compareToken(tokparag,tokparag2);
+    cout << "Cadena: " << cadenaFinal(cadenas) << endl;
     return 0;
 }

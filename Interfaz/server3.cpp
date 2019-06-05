@@ -37,13 +37,20 @@ void clearBuf(char* b);
 
 static void ev_handler(struct mg_connection *nc, int ev, void *p) {
 	char query[256];
+	char cm[1000];
  	struct http_message *hm = (struct http_message *) p;
 	if (ev == MG_EV_HTTP_REQUEST) {
 		if (mg_vcmp(&hm->uri, "/search") == 0) { 
 			mg_get_http_var(&hm->body, "query", query,sizeof(query));
 			printf("Archivo introducido: %s\n",query);
+			strcat(cm,"sed -i 'y/áÁàÀãÃâÂéÉêÊíÍóÓõÕôÔúÚñÑçÇ?¿¡!*-—,/aAaAaAaAeEeEiIoOoOoOuUnNcC        \/' ");
+			strcat(cm,query);
+			system(cm);
 			enviaArchivos("10.100.74.40",query);
 			mg_get_http_var(&hm->body, "query2", query,sizeof(query));
+			strcat(cm,"sed -i 'y/áÁàÀãÃâÂéÉêÊíÍóÓõÕôÔúÚñÑçÇ?¿¡!*-—,/aAaAaAaAeEeEiIoOoOoOuUnNcC        \/' ");
+			strcat(cm,query);
+			system(cm);
 			enviaArchivos("10.100.74.40",query);
 		    // handle_size(nc, hm);  
 		}else{
